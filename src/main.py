@@ -21,17 +21,6 @@ plateau_count = 0
 plateau_min_point = None
 platue_scan = False
 
-# Callback Function to respond to messages from Adafruit IO
-def sub_cb(topic, msg):          # sub_cb means "callback subroutine"
-    print((topic, msg))          # Outputs the message that was received. Debugging use.
-    if msg == b"ON":             # If message says "ON" ...
-        print("ON")       # ... then LED on
-    elif msg == b"OFF":          # If message says "OFF" ...
-        print("OFF")                # ... then LED off
-    else:                        # If any other message is received ...
-        print("Unknown message") # ... do nothing but output that it happened.
-
-
 def send(power,mqtt_client,topic):
     print("Publishing: {0} to {1} ... ".format(power, topic), end='')
     try:
@@ -64,40 +53,19 @@ def find_plateau(current_value,last_value):
     
 def web_thread(ip):
     global LAST_ACTIVATION
-    try:
-        connection = ws.open_socket(ip)
-        ws.serve(connection,LAST_ACTIVATION)
-    except KeyboardInterrupt:
-        raise(KeyboardInterrupt)
+    
 
-        
-
-#ip = network.WLAN(network.STA_IF).ifconfig()[0]
-#_thread.start_new_thread(web_thread,(ip,))
-
-i2c = I2C(1, scl=Pin(15), sda=Pin(14))
-
-#YMDC clamps 4.096 100 amp 
-YMDC_ADS = ADS1115(i2c,address=72, gain=1)
-YMDC1 = ADC(YMDC_ADS,30,1,0,1)
-
-
-AIO_CLIENT_ID = ubinascii.hexlify(unique_id())
-mqtt_client = MQTTClient(AIO_CLIENT_ID,AIO_SERVER,AIO_PORT,AIO_USER,AIO_KEY)
-
-mqtt_client.set_callback(sub_cb)
-mqtt_client.connect()
-
-try:
-    YMDC1.read()
-    power = YMDC1.getAmps(SYSTEM_VOLTAGE)
+def measure_thread(YMDC,mqtt_client):
+    global LAST_ACTIVATION
+    YMDC.read()
+    power = YMDC.getAmps(SYSTEM_VOLTAGE)
     power_last = 0
 
     while(1):
         print("=== ADC reading ===")
-        YMDC1.read()
+        YMDC.read()
         power_last = power
-        power = YMDC1.getAmps(SYSTEM_VOLTAGE)
+        power = YMDC.getAmps(SYSTEM_VOLTAGE)
 
         print("===== MQTT =====")
         mqtt_client.check_msg()
@@ -118,6 +86,31 @@ try:
             print(msg)
             send(msg,mqtt_client,MQTT_LAST_TURN_ON)
         sleep_ms(7000)
+
+
+i2c = I2C(1, scl=Pin(15), sda=Pin(14))
+
+#YMDC clamps 4.096 100 amp 
+YMDC_ADS = ADS1115(i2c,address=72, gain=1)
+YMDC = ADC(YMDC_ADS,30,1,0,1)
+
+#MQTT setup
+AIO_CLIENT_ID = ubinascii.hexlify(unique_id())
+mqtt_client = MQTTClient(AIO_CLIENT_ID,AIO_SERVER,AIO_PORT,AIO_USER,AIO_KEY)
+mqtt_client.set_callback(sub_cb)
+mqtt_client.connect()
+
+#Thread for doing measurments and uploading to mqtt broker
+thread = _thread.start_new_thread(measure_thread,(YMDC,mqtt_client))
+
+ip = network.WLAN(network.STA_IF).ifconfig()[0]
+
+try:
+    connection = ws.open_socket(ip)
+    while 1:
+        ws.serve(connection,LAST_ACTIVATION)
+except KeyboardInterrupt:
+    raise(KeyboardInterrupt)
 finally:
     mqtt_client.disconnect
     mqtt_client = None
