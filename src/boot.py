@@ -51,7 +51,7 @@ Pin("LED",Pin.OUT).on()
 # WiFi Connection
 try:
     ip = do_connect()
-    #set_time()
+    set_time()
 except KeyboardInterrupt:
     print("Keyboard interrupt")
 

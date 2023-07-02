@@ -87,9 +87,6 @@ mqtt_client = MQTTClient(AIO_CLIENT_ID,AIO_SERVER,AIO_PORT,AIO_USER,AIO_KEY)
 
 mqtt_client.set_callback(sub_cb)
 mqtt_client.connect()
-mqtt_client.subscribe(MQTT_TOGGLE_MEASURMENT)
-print("Connected to %s, subscribed to %s topic" % (AIO_SERVER, MQTT_TOGGLE_MEASURMENT))
-
 
 try:
     YMDC1.read()
