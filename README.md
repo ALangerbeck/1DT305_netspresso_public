@@ -81,10 +81,14 @@ connection. The breadboard is a good place to connect components with clear line
 </p>
 
 #### Solder material
+If you have soldering materials and tools lying around, which i had soldering is a good way to make your device more permanent.
+I used and empty pcb, wire, solder and a soldering iron for the process. I also used female headers to make the ADC and Microcontroler easily removable.
+
 <p float="left">
 <img src="/doc/pcb.jpg" width="200"/>
 <img src="/doc/solder.jpg" width="200"/>
 <img src="/doc/headers.jpg" width="200"/>
+<img src="/doc/solderIron.jpg" width="200"/>
 </p>
 
 Explain all material that is needed. All sensors, where you bought them and their specifications. Please also provide pictures of what you have bought and what you are using.
@@ -93,7 +97,14 @@ Explain all material that is needed. All sensors, where you bought them and thei
     What the different things (sensors, wires, controllers) do - short specifications
     Where you bought them and how much they cost
 
-Computer setup
+## Computer setup
+### Firmware
+To begin using the raspberry pi pico w microcontroller you first need to install a firmware. For this project [Micropython](https://micropython.org/) was choosen. The firmware contains a low lever python operating system for the microcontroller which allows its many properties to be contorlled with python code. Micropython contains a subset of the python standard library. After installing the firmware the microcontroller can both be uploaded with files to run when no connected with a computer and controlled via an interactive prompr over usb.
+
+The firmware can be downloaded [here] (https://micropython.org/download/rp2-pico-w/) under the "Firmware" heading. In this project version 1.20.0 was used.
+
+
+
 
 How is the device programmed. Which IDE are you using. Describe all steps from flashing the firmware, installing plugins in your favorite editor. How flashing is done on MicroPython. The aim is that a beginner should be able to understand.
 
