@@ -32,8 +32,8 @@ Describe why you have chosen to build this specific device. What purpose does it
     What insights you think it will give
 
 ## Material
-The materials required for the project are presented here in two parts. The project can easily be constructed on a breadboard. I opted to after validating witht the breadboard
-setup also solder the components to a pcb but this is optional.
+The materials required for the project are presented here in two parts. The project can easily be constructed on a breadboard. After validating witht the breadboard
+setup i chose to also solder the components to a pcb but this is optional.
 
 | ITEM  | Price | Aquisition |
 | ------------- | ------------- | ------------- |
@@ -51,7 +51,7 @@ setup also solder the components to a pcb but this is optional.
 | ------------- | ------------- | ------------- |
 | PCB | 79,19 SEK |[Amazon](https://www.amazon.se/gp/product/B078HV79XX/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)|
 | Solder | <100 SEK  | Any technical store |
-| Wiring for soldering | <20  |Any technical store|
+| Wiring for soldering | <20 SEK  |Any technical store|
 | Header Pins | 139,99kr  | [Amazon](https://www.amazon.se/gp/product/B07CC4V9ZY/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)|
 
 #### Raspberry pi pico w
@@ -60,16 +60,32 @@ One great benefit of this board is that it is wifi capable and can easily be pro
 <img src="/doc/pico.png" width="300"/>
 
 #### SCT-013
+This is the main sensor in the project. It is a split core transformer which measures the current through a wire. It works by the phenomenon of induced current from the field 
+created from an ac current. The transformer can measure a current up to 30 Amp and will produce an output between 0 and 1 volt relating to this current.
+
 <img src="/doc/sct013.jpg" width="300"/>
+
 #### ADS1115
+The ADS1115 is a an external analog to digital converter. It was deemed that the onboard ADC on the raspberry pi was not enought and this was choosen since it was 
+easy to do the differnetial input setup needed to calculate the AC voltage from the current transformer. The ADC came without headers soldered on so this needed to be self soldered.
+
 <img src="/doc/ads1115.jpg" width="400"/>
 
+#### Connections
+The remaining components were used to connect the the components togheter. Since the SCT-013 connects with a 3.5 mm AUX cable an audio jack was also used to create an easy
+connection. The breadboard is a good place to connect components with clear lines and without needing to solder. Finaly there are of course some wires to connect components.
+<p float="left">
+<img src="/doc/audioJack.jpg" width="200"/>
+<img src="/doc/breadboard.jpg" width="200"/>
+<img src="/doc/jumper.jpg" width="200"/>
+</p>
 
-|SCT013|Audio jack|
-||![Audio jack](/doc/audioJack.jpg)|
-|Breadboard|Jumper wire|
-|![Breadboard](/doc/breadboard.jpg)|![jumperwire](/doc/jumper.jpg)|
-
+#### Solder material
+<p float="left">
+<img src="/doc/pcb.jpg" width="200"/>
+<img src="/doc/solder.jpg" width="200"/>
+<img src="/doc/headers.jpg" width="200"/>
+</p>
 
 Explain all material that is needed. All sensors, where you bought them and their specifications. Please also provide pictures of what you have bought and what you are using.
 
