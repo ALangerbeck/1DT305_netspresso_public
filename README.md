@@ -118,14 +118,23 @@ To begin using the raspberry pi pico w microcontroller you first need to install
 
 1. The firmware can be downloaded [here] (https://micropython.org/download/rp2-pico-w/) under the "Firmware" heading. In this project version 1.20.0 was used.
 
-3. After downloading the fimrware it needs to be uploaded to the microcontroller. This is done by holding done the "BOOTSEL" button indicated in black beloow and pluggin the microcontroller
+2. After downloading the fimrware it needs to be uploaded to the microcontroller. This is done by holding done the "BOOTSEL" button indicated in black beloow and pluggin the microcontroller
 into your computer using a usb micro cable.
 <p align="center">
     <img src="/doc/bootsel.png" alt>
     <em>https://projects.raspberrypi.org/en/projects/get-started-pico-w/1</em>
 </p>
 
+3. A file explorer will pop up which looks something like below. Drag and drop the file you downloaded into the file manager. It should close and the microcontroller should restart.
+<p align="center">
+    <img src="/doc/file_manager.png" alt>
+    <em>https://projects.raspberrypi.org/en/projects/get-started-pico-w/1</em>
+</p>
 
+### Programing the microcontroller
+
+Writing the code for the project i used [Visual Studio Code](https://code.visualstudio.com/) which is an IDE which a large amount of user created moduels which helps you with a vareity of tasks.
+I especially found the [pico-w-go extension](https://marketplace.visualstudio.com/items?itemName=paulober.pico-w-go) usefull since it provides autocompletion for the version of Micropython used in the project. Instuction on how to install the extension can be found by following the provided link.
 
 How is the device programmed. Which IDE are you using. Describe all steps from flashing the firmware, installing plugins in your favorite editor. How flashing is done on MicroPython. The aim is that a beginner should be able to understand.
 
