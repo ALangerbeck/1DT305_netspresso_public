@@ -32,11 +32,44 @@ Describe why you have chosen to build this specific device. What purpose does it
     What insights you think it will give
 
 ## Material
+The materials required for the project are presented here in two parts. The project can easily be constructed on a breadboard. I opted to after validating witht the breadboard
+setup also solder the components to a pcb but this is optional.
+
+| ITEM  | Price | Aquisition |
+| ------------- | ------------- | ------------- |
+| Raspberry pi pico w | 98.00 SEK*|[electrokit](https://www.electrokit.com/en/product/raspberry-pi-pico-w/)|
+| SCT-013  | 122,80 SEK | [Amazon](https://www.amazon.se/dp/B07MY361ZW?psc=1&ref=ppx_yo2ov_dt_b_product_details) |
+| Audio jack 3.5 mm  | 1.60 $ | [sparkfun](https://www.sparkfun.com/products/8032)|
+| ADS1115  | 84,99 SEK for 3  | [Amazon](https://www.amazon.se/dp/B07QHWLTTS?psc=1&ref=ppx_yo2ov_dt_b_product_details) |
+| Breadboard | 69.00 SEK* | [electrokit](https://www.electrokit.com/en/product/solderless-breadboard-840-tie-points-2/) |
+| Jumper wire | 29.00 SEK*  | [electrokit](https://www.electrokit.com/en/product/jumper-wires-20-pin-30cm-male-male/) |
+
+*Bought as part of a kit and might have been aquired a little cheaper
+### optional
+
+| ITEM  | Price | Aquisition |
+| ------------- | ------------- | ------------- |
+| PCB | 79,19 SEK |[Amazon](https://www.amazon.se/gp/product/B078HV79XX/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)|
+| Solder | <100 SEK  | Any technical store |
+| Wiring for soldering | <20  |Any technical store|
+| Header Pins | 139,99kr  | [Amazon](https://www.amazon.se/gp/product/B07CC4V9ZY/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)|
+
+#### Raspberry pi pico w
+The Raspberry pi picp is a microcontroller with wireless capabilities and is the core of this project. It does the computing and comunication with sensors. 
+One great benefit of this board is that it is wifi capable and can easily be programed using Micropython
+<img src="/doc/pico.png" width="300"/>
+
+#### SCT-013
+<img src="/doc/sct013.jpg" width="300"/>
+#### ADS1115
+<img src="/doc/ads1115.jpg" width="400"/>
 
 
-|Raspberry pi pico w|ADS1115|
-|:-:|:-:|
-|![Raspberry pi pico w](/doc/pico.png)|![ADS1115](/doc/ads1115.jpg)|
+|SCT013|Audio jack|
+||![Audio jack](/doc/audioJack.jpg)|
+|Breadboard|Jumper wire|
+|![Breadboard](/doc/breadboard.jpg)|![jumperwire](/doc/jumper.jpg)|
+
 
 Explain all material that is needed. All sensors, where you bought them and their specifications. Please also provide pictures of what you have bought and what you are using.
 
