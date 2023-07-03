@@ -1,14 +1,15 @@
 # Netspresso: a non-invasive power sensor for coffee availability 
 by Alfred Langerbeck - al226nm
 
-The netspressor project is built to help satisfy one of the basic human needs, Coffee!!
-The basic purpose is to measure when a device, in this case a coffe brewer, is powered on. In adition the power draw of the device is measured.
-This is a pretty easy problem to solve and in fact i have already made a simple project to do this before by modifying a standard cofee brewer. 
-The previous solution was shut down quite quickly when a building maneger walked in and saw the construction, called it a fire hazard and kindly told us not
-to modify devices in this way in the future. So how do you do this without modifying the device and not having to wory about working with the power in the mains directly.
+## Introduction
+The netspresso project is built to help satisfy one of the basic human needs, Coffee!!
+The basic purpose is to measure when a device, in this case a coffee brewer, is powered on. In addition, the power draw of the device is measured.
+This is a pretty easy problem to solve and in fact i have already made a simple project to do this before by modifying a standard coffee brewer. 
+The previous solution was shut down quite quickly when a building manager walked in and saw the construction, called it a fire hazard and kindly told us not
+to modify devices in this way in the future. So how do you do this without modifying the device and not having to worry about working with the power in the mains directly.
 
-In this project a split core transformer is used to measure the current that is drawn by the coffee maker with minimal interference with the device itself.
-The project took about a week of evenings to complete and i hope my experience with the project will help anyone who wants to do anything like this. 
+In this project, a split core transformer is used to measure the current that is drawn by the coffee maker with minimal interference with the device itself.
+The project took about a week of evenings (~20 hours) to complete, and I hope my experience with the project will help anyone who wants to do anything like this. 
 
 Give a short and brief overview of what your project is about. What needs to be included:
     Title
@@ -16,7 +17,13 @@ Give a short and brief overview of what your project is about. What needs to be 
     Short project overview
     How much time it might take to do (approximation)
 
-Objective
+## Objective
+As stated earlier, the objective is to create a device that can detect when a coffee maker or another general device without interfering with the device itself, and more importantly without modifying it or directly disturbing power from mains. The measurements are then to be uploaded, so any interested party can check if there is coffee brewing or if there was some coffee made recently. 
+
+The project touched many different techniques and was a perfect start for interacting with MQTT, IC2, DACs, Wi-Fi, Sockets and very light data analysis.
+
+
+
 
 Describe why you have chosen to build this specific device. What purpose does it serve? What do you want to do with the data, and what new insights do you think it will give?
 
@@ -24,7 +31,12 @@ Describe why you have chosen to build this specific device. What purpose does it
     What purpose does it serve
     What insights you think it will give
 
-Material
+## Material
+
+
+|First Image|Second Image|
+|:-:|:-:|
+|![[pico.png]]|![Second Image](https://images.pexels.com/photos/1335115/pexels-photo-1335115.jpeg?h=750&w=1260)|
 
 Explain all material that is needed. All sensors, where you bought them and their specifications. Please also provide pictures of what you have bought and what you are using.
 
