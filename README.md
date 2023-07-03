@@ -1,9 +1,21 @@
-# Building a non-invasive power sensor 
+# Netspresso: a non-invasive power sensor for coffee availability 
+by Alfred Langerbeck - al226nm
+
+The netspressor project is built to help satisfy one of the basic human needs, Coffee!!
+The basic purpose is to measure when a device, in this case a coffe brewer, is powered on. In adition the power draw of the device is measured.
+This is a pretty easy problem to solve and in fact i have already made a simple project to do this before by modifying a standard cofee brewer. 
+The previous solution was shut down quite quickly when a building maneger walked in and saw the construction, called it a fire hazard and kindly told us not
+to modify devices in this way in the future. So how do you do this without modifying the device and not having to wory about working with the power in the mains directly.
+
+In this project a split core transformer is used to measure the current that is drawn by the coffee maker with minimal interference with the device itself.
+The project took about a week of evenings to complete and i hope my experience with the project will help anyone who wants to do anything like this. 
+
 Give a short and brief overview of what your project is about. What needs to be included:
     Title
     Your name and student credentials (xx666x)
     Short project overview
     How much time it might take to do (approximation)
+
 Objective
 
 Describe why you have chosen to build this specific device. What purpose does it serve? What do you want to do with the data, and what new insights do you think it will give?
