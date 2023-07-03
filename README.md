@@ -34,7 +34,7 @@ Describe why you have chosen to build this specific device. What purpose does it
 ## Material
 
 
-|First Image|Second Image|
+|Raspberry pi pico w|ADS1115|
 |:-:|:-:|
 |![Raspberry pi pico w](/doc/pico.png)|![ADS1115](/doc/ads1115.jpg)|
 
