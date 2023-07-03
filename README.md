@@ -106,15 +106,24 @@ Explain all material that is needed. All sensors, where you bought them and thei
     Where you bought them and how much they cost
 
 ## Computer setup
+After collecting all materials needed you should start thinking about your developing envoirment and how you want to interact with the raspberry pi pico w.
+All the programatic and setup parts of this project were done usign a pc runnin windows 10 but there should be no problems doing the same project using any other
+computer. You could even use a regular raspberry pi!
+
 ### Firmware
 <img align="right" src="/doc/micropython.png" width="200"/>
 To begin using the raspberry pi pico w microcontroller you first need to install a firmware. For this project [Micropython](https://micropython.org/) was choosen. The firmware contains a low lever python operating system for the microcontroller which allows its many properties to be contorlled with python code. Micropython contains a subset of the python standard library. After installing the firmware the microcontroller can both be uploaded with files to run when no connected with a computer and controlled via an interactive prompr over usb.
 
 
-The firmware can be downloaded [here] (https://micropython.org/download/rp2-pico-w/) under the "Firmware" heading. In this project version 1.20.0 was used.
 
-After downloading the fimrware it needs to be uploaded to the microcontroller. This is done by 
+1. The firmware can be downloaded [here] (https://micropython.org/download/rp2-pico-w/) under the "Firmware" heading. In this project version 1.20.0 was used.
 
+3. After downloading the fimrware it needs to be uploaded to the microcontroller. This is done by holding done the "BOOTSEL" button indicated in black beloow and pluggin the microcontroller
+into your computer using a usb micro cable.
+<p align="center">
+    <img src="/doc/bootsel.png" alt>
+    <em>https://projects.raspberrypi.org/en/projects/get-started-pico-w/1</em>
+</p>
 
 
 
