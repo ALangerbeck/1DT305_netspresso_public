@@ -34,9 +34,9 @@ Describe why you have chosen to build this specific device. What purpose does it
 ## Material
 
 
-|First Image|Second Image|
+|Raspberry pi pico w|ADS1115|
 |:-:|:-:|
-|![[pico.png]]|![Second Image](https://images.pexels.com/photos/1335115/pexels-photo-1335115.jpeg?h=750&w=1260)|
+|![Raspberry pi pico w](/doc/pico.png)|![ADS1115](/doc/ads1115.jpg)|
 
 Explain all material that is needed. All sensors, where you bought them and their specifications. Please also provide pictures of what you have bought and what you are using.
 
