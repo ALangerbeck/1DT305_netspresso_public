@@ -57,23 +57,31 @@ setup i chose to also solder the components to a pcb but this is optional.
 #### Raspberry pi pico w
 The Raspberry pi picp is a microcontroller with wireless capabilities and is the core of this project. It does the computing and comunication with sensors. 
 One great benefit of this board is that it is wifi capable and can easily be programed using Micropython
+
+<p align="center">
 <img src="/doc/pico.png" width="300"/>
+</p>
 
 #### SCT-013
 This is the main sensor in the project. It is a split core transformer which measures the current through a wire. It works by the phenomenon of induced current from the field 
 created from an ac current. The transformer can measure a current up to 30 Amp and will produce an output between 0 and 1 volt relating to this current.
 
+<p align="center">
 <img src="/doc/sct013.jpg" width="300"/>
+</p>
 
 #### ADS1115
 The ADS1115 is a an external analog to digital converter. It was deemed that the onboard ADC on the raspberry pi was not enought and this was choosen since it was 
 easy to do the differnetial input setup needed to calculate the AC voltage from the current transformer. The ADC came without headers soldered on so this needed to be self soldered.
 
+<p align="center">
 <img src="/doc/ads1115.jpg" width="400"/>
+</p>
 
 #### Connections
 The remaining components were used to connect the the components togheter. Since the SCT-013 connects with a 3.5 mm AUX cable an audio jack was also used to create an easy
 connection. The breadboard is a good place to connect components with clear lines and without needing to solder. Finaly there are of course some wires to connect components.
+
 <p float="left">
 <img src="/doc/audioJack.jpg" width="200"/>
 <img src="/doc/breadboard.jpg" width="200"/>
@@ -99,9 +107,13 @@ Explain all material that is needed. All sensors, where you bought them and thei
 
 ## Computer setup
 ### Firmware
+<img align="right" src="/doc/micropython.png" width="200"/>
 To begin using the raspberry pi pico w microcontroller you first need to install a firmware. For this project [Micropython](https://micropython.org/) was choosen. The firmware contains a low lever python operating system for the microcontroller which allows its many properties to be contorlled with python code. Micropython contains a subset of the python standard library. After installing the firmware the microcontroller can both be uploaded with files to run when no connected with a computer and controlled via an interactive prompr over usb.
 
+
 The firmware can be downloaded [here] (https://micropython.org/download/rp2-pico-w/) under the "Firmware" heading. In this project version 1.20.0 was used.
+
+After downloading the fimrware it needs to be uploaded to the microcontroller. This is done by 
 
 
 
