@@ -112,11 +112,12 @@ computer. You could even use a regular raspberry pi!
 
 ### Firmware
 <img align="right" src="/doc/micropython.png" width="200"/>
+
 To begin using the raspberry pi pico w microcontroller you first need to install a firmware. For this project [Micropython](https://micropython.org/) was choosen. The firmware contains a low lever python operating system for the microcontroller which allows its many properties to be contorlled with python code. Micropython contains a subset of the python standard library. After installing the firmware the microcontroller can both be uploaded with files to run when no connected with a computer and controlled via an interactive prompr over usb.
 
 
 
-1. The firmware can be downloaded [here] (https://micropython.org/download/rp2-pico-w/) under the "Firmware" heading. In this project version 1.20.0 was used.
+1. The firmware can be downloaded [here](https://micropython.org/download/rp2-pico-w/) under the "Firmware" heading. In this project version 1.20.0 was used.
 
 2. After downloading the fimrware it needs to be uploaded to the microcontroller. This is done by holding done the "BOOTSEL" button indicated in black beloow and pluggin the microcontroller
 into your computer using a usb micro cable.
@@ -132,9 +133,54 @@ into your computer using a usb micro cable.
 </p>
 
 ### Programing the microcontroller
+<img align="right" src="/doc/vs_code_logo.png" width="200"/>
 
 Writing the code for the project i used [Visual Studio Code](https://code.visualstudio.com/) which is an IDE which a large amount of user created moduels which helps you with a vareity of tasks.
 I especially found the [pico-w-go extension](https://marketplace.visualstudio.com/items?itemName=paulober.pico-w-go) usefull since it provides autocompletion for the version of Micropython used in the project. Instuction on how to install the extension can be found by following the provided link.
+
+There is an extension for transfering files to the microcontroller called [pymkr](https://marketplace.visualstudio.com/items?itemName=pycom.Pymakr) but i found it very buggy and prone to stop working completly. I instead recomment using [rshell](https://github.com/dhylands/rshell) which is a remote shell terminal tool for interacting with mycropython.
+
+To interact with the raspberry pi pico using rshell you should do the following:
+1. Make sure you have python3 and pip installed. If you do not the installation files can be found [here](https://www.python.org/downloads/)
+   if python and pip are installed the following command should provide a version number when run in the windows terminal.
+   
+   ```
+   python --verion
+   pip --version
+   ```
+3. With pip and python3 installed run the following command to install rshell
+   ```
+   pip3 install rshell pyreadline3
+   ```
+4. Run `rshell` and you should see something like this
+    ```
+    C:\Users\user>rshell
+    Connecting to COM4 (buffer-size 128)...
+    Trying to connect to REPL  connected
+   ```
+5. After the device is connected files can be moved to the device using the following command:
+   ```
+   cp localfile.py /pyboard/localfile.py
+   ```
+   and should give something like this:
+   ```
+   Copying 'C:\Users\user/localfile.py' to '/pyboard/localfile.py' ...
+   ```
+   Files can also be removed from the board using
+   ```
+   rm /pyboard/file.py
+   ```
+6. After uploading uploading the interactive python promt can be started using the `repl` command. From the interactive prompt you can write python commands just like you would on a regular computer.
+   While using the intercative prompt via rshell the following control commands can be used:
+   ```
+   Useful control commands:
+      CTRL-C -- interrupt a running program
+      CTRL-D -- on a blank line, do a soft reset of the board
+      CTRL-E -- on a blank line, enter paste mode
+   ```
+7. After restarting the board for example via one of the commands above the board will automatically run boot.py and then main.py files uploaded to the microcontroller while posting prints and error
+   codes in the REPL terminal 
+
 
 How is the device programmed. Which IDE are you using. Describe all steps from flashing the firmware, installing plugins in your favorite editor. How flashing is done on MicroPython. The aim is that a beginner should be able to understand.
 
