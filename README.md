@@ -304,60 +304,20 @@ The boot scripts cointains functions for seting up the pi. It contains a functio
 using values obtained from a [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) server. This is needed since one of the core functions of the device is to keep track of when an event (i.e coffe time) happens in real time. If you want to work with NTP and setting local time don't forget timezones and don't forget daylight saving (I did, and it was very frustrating). 
 
 The set_time function works by sending creating a soceket and sending a requetst to a ntp server, then usin the micropython machine library to set the RTC.
-```python
-
-NTP_DELTA = 2208988800 - GM_OFFSET * 3600 - DAYLIGHT_SAVING * 3600
-
-def set_time():
-    NTP_QUERY = bytearray(48)
-    NTP_QUERY[0] = 0x1B
-    addr = socket.getaddrinfo(NTP_SERVER, 123)[0][-1]
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    try:
-        s.settimeout(10)
-        res = s.sendto(NTP_QUERY, addr)
-        msg = s.recv(48)
-    finally:
-        s.close()
-    val = struct.unpack("!I", msg[40:44])[0]
-    t = val - NTP_DELTA    
-    tm = gmtime(t)
-    RTC().datetime((tm[0], tm[1], tm[2], tm[6] + 1, tm[3], tm[4], tm[5], 0))
-
-```
 
 The connect script is as as straightforwad as activating the network interface, configuring credentials, starting a connection and waiting for
 a connection to be made.
 
-```python
-def do_connect():
-
-    wlan = network.WLAN(network.STA_IF)         # Put modem on Station mode
-
-    if not wlan.isconnected():                  # Check if already connected
-        print('connecting to network...')
-        wlan.active(True)                       # Activate network interface
-        # set power mode to get WiFi power-saving off (if needed)
-        wlan.config(pm = 0xa11140)
-        wlan.connect(WIFI_SSID, WIFI_PASSWORD)  # Your WiFi Credential
-        print('Waiting for connection...', end='')
-        # Check if it is connected otherwise wait
-        while not wlan.isconnected() and wlan.status() >= 0:
-            print('.', end='')
-            sleep(1)
-    # Print the IP assigned by router
-    ip = wlan.ifconfig()[0]
-    print('\nConnected on {}'.format(ip))
-    return ip 
-```
 ### main.py
 The bulk of the code is contained in the main file and if you want any specifics i recommend checking out the file itself in the github.
 The is "divided" into two different parts run by two different thread using the `_threading` library contained in micropython. 
 One thread does measuments and handles uploading of data to adafruit io. The other handles the small webserver.
 
 The measure thread interacts with the ads1115 through an imported library found [here](https://github.com/robert-hh/ads1x15) and a ADC class both located in `src\libs` the library handles the reading of the power
-valuse. The reading is done by by calling the `read` function which takes 120 quick readings and avaraging the values. Afterwards the power is calculated  
+valuse. The reading is done by by calling the `read` function which takes 120 quick readings and avaraging the values. Afterwards the current is calulated from the voltage output using the known relationship between voltage and current from the current transformer. The power is then calculated using the current times the voltage of the mains. The power value is uploaded to adafruit using pycoms mqtt library contained in `src\libs\mqtt.py`.
 
+After measuriong power we want to see if the reading means that the coffee maker has been powered on. This is done by the `find_platue` function. The function checks if the power drain has changed outside of a
+threshold specified by `config.py`
 
 Import core functions of your code here, and don’t forget to explain what you have done! Do not put too much code here, focus on the core functionalities. Have you done a specific function that does a calculation, or are you using clever function for sending data on two networks? Or, are you checking if the value is reasonable etc. Explain what you have done, including the setup of the network, wireless, libraries and all that is needed to understand.
 
