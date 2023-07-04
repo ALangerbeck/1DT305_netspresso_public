@@ -54,14 +54,14 @@ def find_plateau(current_value,last_value):
 def measure_thread(YMDC,mqtt_client):
     global LAST_ACTIVATION
     YMDC.read()
-    power = YMDC.getAmps(SYSTEM_VOLTAGE)
+    power = YMDC.getPower(SYSTEM_VOLTAGE)
     power_last = 0
 
     while(1):
         print("=== ADC reading ===")
         YMDC.read()
         power_last = power
-        power = YMDC.getAmps(SYSTEM_VOLTAGE)
+        power = YMDC.getPower(SYSTEM_VOLTAGE)
 
         print("===== MQTT =====")
         mqtt_client.check_msg()
