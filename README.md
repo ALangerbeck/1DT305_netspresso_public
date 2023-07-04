@@ -280,6 +280,81 @@ All of the code that is included in the project can be found in the src director
 
 One thing that is crucial to know when working with micropython on the pico, is that there are two files which have special meaning. The `boot.py` and `main.py` are automatically executed when the pico is started.
 
+### config.py
+In this project there is also another file which the user needs to be aware about. The `config.py` file containts constants used throughout the code, If you live in sweden and dont care that much about the intrecasies of the measurments you only need to worry about the following section of the file. Where you need to imput your wifi credentials to connect to a network and the Adafruit information that was saved during the adafruit setup + your adafruit username.
+```
+#Connectivity settings
+WIFI_SSID = "SSID"
+WIFI_PASSWORD = "PASSWORD"
+
+#MQTT Setup
+AIO_SERVER = "io.adafruit.com"
+AIO_PORT = 1883
+AIO_USER = "Adafruit username"
+AIO_KEY = "Adafrutuit Password"
+
+MQTT_LAST_TURN_ON = "Path to last turn on feed"
+MQTT_POWER_MEASURMENTS = "Path to power measurment feed"
+
+```
+The rest of the constants are rellated to measurments taken. If you live in sweden and dont care that much about the specifics of the measurment you don't need to worry about these constants.
+
+### boot.py
+The boot scripts cointains functions for seting up the pi. It contains a function for connecting to a wifi network using the `network.WLAN` library and a function to set the picos internal Real Time Clock
+using values obtained from a [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) server. This is needed since one of the core functions of the device is to keep track of when an event (i.e coffe time) happens in real time. If you want to work with NTP and setting local time don't forget timezones and don't forget daylight saving (I did, and it was very frustrating). 
+
+The set_time function works by sending creating a soceket and sending a requetst to a ntp server, then usin the micropython machine library to set the RTC.
+```python
+
+NTP_DELTA = 2208988800 - GM_OFFSET * 3600 - DAYLIGHT_SAVING * 3600
+
+def set_time():
+    NTP_QUERY = bytearray(48)
+    NTP_QUERY[0] = 0x1B
+    addr = socket.getaddrinfo(NTP_SERVER, 123)[0][-1]
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.settimeout(10)
+        res = s.sendto(NTP_QUERY, addr)
+        msg = s.recv(48)
+    finally:
+        s.close()
+    val = struct.unpack("!I", msg[40:44])[0]
+    t = val - NTP_DELTA    
+    tm = gmtime(t)
+    RTC().datetime((tm[0], tm[1], tm[2], tm[6] + 1, tm[3], tm[4], tm[5], 0))
+
+```
+
+The connect script is as as straightforwad as activating the network interface, configuring credentials, starting a connection and waiting for
+a connection to be made.
+
+```python
+def do_connect():
+
+    wlan = network.WLAN(network.STA_IF)         # Put modem on Station mode
+
+    if not wlan.isconnected():                  # Check if already connected
+        print('connecting to network...')
+        wlan.active(True)                       # Activate network interface
+        # set power mode to get WiFi power-saving off (if needed)
+        wlan.config(pm = 0xa11140)
+        wlan.connect(WIFI_SSID, WIFI_PASSWORD)  # Your WiFi Credential
+        print('Waiting for connection...', end='')
+        # Check if it is connected otherwise wait
+        while not wlan.isconnected() and wlan.status() >= 0:
+            print('.', end='')
+            sleep(1)
+    # Print the IP assigned by router
+    ip = wlan.ifconfig()[0]
+    print('\nConnected on {}'.format(ip))
+    return ip 
+```
+### main.py
+The bulk of the code is contained in the main file and if you want any specifics i recommend checking out the file itself in the github.
+The is "divided" into two different parts run by two different thread using the `_threading` library contained in micropython. 
+One thread does measuments and handles uploading of data to adafruit io. The other handles the small webserver. 
+
 
 Import core functions of your code here, and don’t forget to explain what you have done! Do not put too much code here, focus on the core functionalities. Have you done a specific function that does a calculation, or are you using clever function for sending data on two networks? Or, are you checking if the value is reasonable etc. Explain what you have done, including the setup of the network, wireless, libraries and all that is needed to understand.
 
