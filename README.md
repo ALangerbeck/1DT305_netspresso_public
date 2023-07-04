@@ -1,6 +1,10 @@
 # Netspresso: a non-invasive power sensor for coffee availability 
 by Alfred Langerbeck - al226nm
 
+<p align="center">
+<img src="/doc/coffe_beat.jpg"/>
+</p>
+
 ## Introduction
 The netspresso project is built to help satisfy one of the basic human needs, Coffee!!
 The basic purpose is to measure when a device, in this case a coffee brewer, is powered on. In addition, the power draw of the device is measured.
@@ -126,11 +130,13 @@ into your computer using a usb micro cable.
     <em>https://projects.raspberrypi.org/en/projects/get-started-pico-w/1</em>
 </p>
 
-3. A file explorer will pop up which looks something like below. Drag and drop the file you downloaded into the file manager. It should close and the microcontroller should restart.
+3. A file explorer will pop up which looks something like below. Drag and drop the file you downloaded into the file manager. It should close and the microcontroller should restart ready to be
+   interacted with.
 <p align="center">
     <img src="/doc/file_manager.png" alt>
     <em>https://projects.raspberrypi.org/en/projects/get-started-pico-w/1</em>
 </p>
+
 
 ### Programing the microcontroller
 <img align="right" src="/doc/vs_code_logo.png" width="200"/>
@@ -188,7 +194,37 @@ How is the device programmed. Which IDE are you using. Describe all steps from f
     How the code is uploaded
     Steps that you needed to do for your computer. Installation of Node.js, extra drivers, etc.
 
-Putting everything together
+## Putting everything together
+In terms of hardware, the three main components, current transformer, Analog-to-digital converter and microcontroler, are wired togheter acording to the schemea bellow.
+
+<p align="center">
+<img src="/doc/netspresso_sketch_bb.png"/>
+</p>
+
+The ADS1115 will connect to the microcontroller the following way:
+
+ - GND -> GND (I've chosen pin 38)
+ - VDD -> 3V3 (pin 36) This is powering the ADC
+ - SCL -> I2C SCL (I've chosen pin 20)
+ - SDA -> I2C SDA (I've chosen pin 19)
+
+The SCT013 is then connected to the ADC using a 3.5mm audio jack. Where:
+
+- The left channel is connected to A1 on the ADC
+- The Ground Channel is connected to A0
+- The right channel is left unconected
+
+Two analog pins are used on the ADC since we get an AC output from the sensor and we need to read a differentintial between the signals. 
+Since the device is meant to be used in close proximity to a coffee maker the raspberry pi pico w is powered from over usb.
+
+One important thing to nore is that some current transformers lacks an internal burden resistor. If the output is specified in terms of current and an an external burden resitor between the left
+channel and ground should be added. If you got the current transformer specified above this is not a problem.
+
+I chose to solder the components toghter wich resulted in the following PCB
+<p float="left">
+<img src="/doc/pcb.jpg" width="200"/>
+<img src="/doc/solder.jpg" width="200"/>
+</p>
 
 How is all the electronics connected? Describe all the wiring, good if you can show a circuit diagram. Be specific on how to connect everything, and what to think of in terms of resistors, current and voltage. Is this only for a development setup or could it be used in production?
 
