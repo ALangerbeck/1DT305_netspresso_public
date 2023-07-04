@@ -353,7 +353,10 @@ def do_connect():
 ### main.py
 The bulk of the code is contained in the main file and if you want any specifics i recommend checking out the file itself in the github.
 The is "divided" into two different parts run by two different thread using the `_threading` library contained in micropython. 
-One thread does measuments and handles uploading of data to adafruit io. The other handles the small webserver. 
+One thread does measuments and handles uploading of data to adafruit io. The other handles the small webserver.
+
+The measure thread interacts with the ads1115 through an imported library found [here](https://github.com/robert-hh/ads1x15) and a ADC class both located in `src\libs` the library handles the reading of the power
+valuse. The reading is done by by calling the `read` function which takes 120 quick readings and avaraging the values. Afterwards the power is calculated  
 
 
 Import core functions of your code here, and don’t forget to explain what you have done! Do not put too much code here, focus on the core functionalities. Have you done a specific function that does a calculation, or are you using clever function for sending data on two networks? Or, are you checking if the value is reasonable etc. Explain what you have done, including the setup of the network, wireless, libraries and all that is needed to understand.
