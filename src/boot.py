@@ -20,14 +20,13 @@ def set_time():
     finally:
         s.close()
     val = struct.unpack("!I", msg[40:44])[0]
-    t = val - NTP_DELTA    
+    t = val - NTP_DELTA
     tm = gmtime(t)
     RTC().datetime((tm[0], tm[1], tm[2], tm[6] + 1, tm[3], tm[4], tm[5], 0))
 
 
 def do_connect():
 
-    print("==== Run Boot script === ")
     wlan = network.WLAN(network.STA_IF)         # Put modem on Station mode
 
     if not wlan.isconnected():                  # Check if already connected
@@ -44,7 +43,10 @@ def do_connect():
     # Print the IP assigned by router
     ip = wlan.ifconfig()[0]
     print('\nConnected on {}'.format(ip))
-    return ip 
+    return ip
+
+
+print("==== Run Boot script === ")
 
 Pin("LED",Pin.OUT).on()
 

@@ -6,7 +6,7 @@ from time import sleep_ms, ticks_ms, ticks_us, localtime
 from array import array
 from math import sqrt
 from config import *
-import ubinascii 
+import ubinascii
 import _thread
 from libs.mqtt import MQTTClient
 import libs.webserver as ws
@@ -40,20 +40,16 @@ def find_plateau(current_value,last_value):
         else:
             plateau_count = 0
             platue_scan = False
-        
+
         if plateau_count >= PLATEAU_COUNT_THRESHOLD:
             platue_scan = False
             return True
         return False
-    else:   
+    else:
         if (current_value - last_value >= PLATEAU_THRESHOLD):
             plateau_min_point = last_value
             platue_scan = True
         return False
-    
-def web_thread(ip):
-    global LAST_ACTIVATION
-    
 
 def measure_thread(YMDC,mqtt_client):
     global LAST_ACTIVATION
@@ -90,7 +86,6 @@ def measure_thread(YMDC,mqtt_client):
 
 i2c = I2C(1, scl=Pin(15), sda=Pin(14))
 
-#YMDC clamps 4.096 100 amp 
 YMDC_ADS = ADS1115(i2c,address=72, gain=1)
 YMDC = ADC(YMDC_ADS,30,1,0,1)
 
