@@ -16,27 +16,12 @@ In this project, a split core transformer is used to measure the current that is
 The project took about a week of evenings (~20 hours) to complete, and I hope my experience with the project will help anyone who wants to do anything like this.
 Recreating the project with all components at hand could probably be done in 1-2 days of casual work.
 
-<!---Give a short and brief overview of what your project is about. What needs to be included:
-Title
-Your name and student credentials (xx666x)
-Short project overview
-How much time it might take to do (approximation)
--->
 
 ## Objective
 As stated earlier, the objective is to create a device that can detect when a coffee maker or another general device without interfering with the device itself, and more importantly without modifying it or directly disturbing power from mains. The measurements are then to be uploaded, so any interested party can check if there is coffee brewing or if there was some coffee made recently. 
 
 The project touched many different techniques and was a perfect start for interacting with MQTT, IC2, DACs, Wi-Fi, Sockets and very light data analysis.
 
-
-
-
-<!--- Describe why you have chosen to build this specific device. What purpose does it serve? What do you want to do with the data, and what new insights do you think it will give?
-
-    Why you chose the project
-    What purpose does it serve
-    What insights you think it will give
---->
 ## Material
 The materials required for the project are presented here in two parts. The project can easily be constructed on a breadboard. After validating witht the breadboard
 setup i chose to also solder the components to a pcb but this is optional.
@@ -105,13 +90,7 @@ I used and empty pcb, wire, solder and a soldering iron for the process. I also 
 <img src="/doc/solderIron.jpg" width="200"/>
 </p>
 
-<!---
-Explain all material that is needed. All sensors, where you bought them and their specifications. Please also provide pictures of what you have bought and what you are using.
 
-    List of material
-    What the different things (sensors, wires, controllers) do - short specifications
-    Where you bought them and how much they cost
---->
 ## Computer setup
 After collecting all materials needed you should start thinking about your developing envoirment and how you want to interact with the raspberry pi pico w.
 All the programatic and setup parts of this project were done usign a pc runnin windows 10 but there should be no problems doing the same project using any other
@@ -190,13 +169,6 @@ To interact with the raspberry pi pico using rshell you should do the following:
 7. After restarting the board for example via one of the commands above the board will automatically run boot.py and then main.py files uploaded to the microcontroller while posting prints and error
    codes in the REPL terminal 
 
-<!---
-How is the device programmed. Which IDE are you using. Describe all steps from flashing the firmware, installing plugins in your favorite editor. How flashing is done on MicroPython. The aim is that a beginner should be able to understand.
-
-    Chosen IDE
-    How the code is uploaded
-    Steps that you needed to do for your computer. Installation of Node.js, extra drivers, etc.
---->
 
 ## Putting everything together
 In terms of hardware, the three main components, current transformer, Analog-to-digital converter and microcontroler, are wired togheter acording to the schemea bellow.
@@ -240,12 +212,6 @@ all phase cables, the total current running throught the transformer loop will b
 In this prototyp i have opened up a cable. **I do not recommend doing this.** You should try to find a already split cable. If you decide to split your cable despite this be very carefull not to cut the 
 inner cable housing. 
 
-<!---
-How is all the electronics connected? Describe all the wiring, good if you can show a circuit diagram. Be specific on how to connect everything, and what to think of in terms of resistors, current and voltage. Is this only for a development setup or could it be used in production?
-
-    Circuit diagram (can be hand drawn)
-    *Electrical calculations
---->
 
 ## Platform
 To present and store the result two main routes are implemented. The way to interact witht the device is through the [Adafruit IO](https://io.adafruit.com/) platform. The adafruit platfor provides
@@ -262,21 +228,12 @@ To use adafruit in this project a little setup is needed.
 4. After createing the feed you need to save the "MQTT by key"  to use the feed later in the code. This is done by clicking on the feed. Going to feed info to the right and copying the string from the
    popup it should be in the format `Adafruit_username/feeds/feed_name`
 5. You also need to click on the key symbol in the upper right and and copy your "Active Key" for later in the code
-
-<!---
-Describe your choice of platform. If you have tried different platforms it can be good to provide a comparison.
---->
+   
 
 ### Webserver
 Seperate from Adafruit i also chose to display data using a very lite webserver running on the microcontroller using sockets. This approach is not scalable, since the pi cannot handle many connections,
 but it is quick and easy way to access when the coffee machine last turned on. It also works without connection to the internet (you still have to be connected to a network though). To work outside a specific network you would need to use something like [port forwarding](https://en.wikipedia.org/wiki/Port_forwarding) and you would probably need to consider security implications.
 
-<!---
-Is your platform based on a local installation or a cloud? Do you plan to use a paid subscription or a free? Describe the different alternatives on going forward if you want to scale your idea.
-
-    Describe platform in terms of functionality
-    *Explain and elaborate what made you choose this platform
---->
 
 ## The code
 All of the code that is included in the project can be found in the src directory but i will go through some of it here.
@@ -358,13 +315,7 @@ Timestamps are also serverd using the HTTP protocol to any client who sends a ge
 frequent use cases.
 
 The device is connected to the internet using wifi, since it is designed to be used in an indoor workspace this is considered to be no problem at all. Also it runs of the mains powersupply. I kinda wanted to try using LoRa in this course but for the use case and positioning of the device made wifi the easier method. 
-<!--- How is the data transmitted to the internet or local server? Describe the package format. All the different steps that are needed in getting the data to your end-point. Explain both the code and choice of wireless protocols.
 
-   How often is the data sent?
-   Which wireless protocols did you use (WiFi, LoRa, etc …)?
-   Which transport protocols were used (MQTT, webhook, etc …)
-   *Elaborate on the design choices regarding data transmission and wireless protocols. That is how your choices affect the device range and battery consumption.
---->
 
 ## Presenting the data
 The data is presented in a adafruit dashboard which looks like this:
@@ -402,10 +353,3 @@ If i had more time i would probably extend the project with a lcd display that c
     <img src="/doc/complete_setup.jpg" alt>
     <em>The final Setup</em>
 </p>
-<!---
-Show the final results of your project. Give your final thoughts on how you think the project went. What could have been done in an other way, or even better? Pictures are nice!
-
-    Show final results of the project
-    Pictures
-    *Video presentation
---->
