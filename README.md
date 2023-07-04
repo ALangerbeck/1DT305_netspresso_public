@@ -260,15 +260,26 @@ To use adafruit in this project a little setup is needed.
 2. sign into you account and go to IO -> Feeds, here you can create feeds for your device to interact with.
 3. Two Feeds are required for this project. One to signal when the coffe maker was last turned on and one for signaling measured power draw of the coffee maker.
    Click on the new feed button to create the feeds and name them something rellevant. I named them "Power measurment" and "Last turned on"
+4. After createing the feed you need to save the "MQTT by key"  to use the feed later in the code. This is done by clicking on the feed. Going to feed info to the right and copying the string from the
+   popup it should be in the format `Adafruit_username/feeds/feed_name`
+5. You also need to click on the key symbol in the upper right and and copy your "Active Key" for later in the code
 
 Describe your choice of platform. If you have tried different platforms it can be good to provide a comparison.
+
+### Webserver
+Seperate from Adafruit i also chose to display data using a very lite webserver running on the microcontroller using sockets. This approach is not scalable, since the pi cannot handle many connections,
+but it is quick and easy way to access when the coffee machine last turned on. It also works without connection to the internet (you still have to be connected to a network though). To work outside a specific network you would need to use something like [port forwarding](https://en.wikipedia.org/wiki/Port_forwarding) and you would probably need to consider security implications.
 
 Is your platform based on a local installation or a cloud? Do you plan to use a paid subscription or a free? Describe the different alternatives on going forward if you want to scale your idea.
 
     Describe platform in terms of functionality
     *Explain and elaborate what made you choose this platform
 
-The code
+## The code
+All of the code that is included in the project can be found in the src directory but i will go through some of it here.
+
+One thing that is crucial to know when working with micropython on the pico, is that there are two files which have special meaning. The `boot.py` and `main.py` are automatically executed when the pico is started.
+
 
 Import core functions of your code here, and don’t forget to explain what you have done! Do not put too much code here, focus on the core functionalities. Have you done a specific function that does a calculation, or are you using clever function for sending data on two networks? Or, are you checking if the value is reasonable etc. Explain what you have done, including the setup of the network, wireless, libraries and all that is needed to understand.
 
