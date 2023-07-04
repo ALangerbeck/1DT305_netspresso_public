@@ -257,16 +257,55 @@ MQTT_LAST_TURN_ON = "Path to last turn on feed"
 MQTT_POWER_MEASURMENTS = "Path to power measurment feed"
 
 ```
-The rest of the constants are rellated to measurments taken. If you live in sweden and dont care that much about the specifics of the measurment you don't need to worry about these constants.
+The rest of the constants are rellated to measurments taken. If you live in sweden (timezone and mains voltage) and dont care that much about the specifics of the measurment you don't need to worry about these constants.
 
 ### boot.py
 The boot scripts cointains functions for seting up the pi. It contains a function for connecting to a wifi network using the `network.WLAN` library and a function to set the picos internal Real Time Clock
 using values obtained from a [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) server. This is needed since one of the core functions of the device is to keep track of when an event (i.e coffe time) happens in real time. If you want to work with NTP and setting local time don't forget timezones and don't forget daylight saving (I did, and it was very frustrating). 
 
 The set_time function works by sending creating a soceket and sending a requetst to a ntp server, then usin the micropython machine library to set the RTC.
+```python
+def set_time():
+    NTP_QUERY = bytearray(48)
+    NTP_QUERY[0] = 0x1B
+    addr = socket.getaddrinfo(NTP_SERVER, 123)[0][-1]
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.settimeout(10)
+        res = s.sendto(NTP_QUERY, addr)
+        msg = s.recv(48)
+    finally:
+        s.close()
+    val = struct.unpack("!I", msg[40:44])[0]
+    t = val - NTP_DELTA
+    tm = gmtime(t)
+    RTC().datetime((tm[0], tm[1], tm[2], tm[6] + 1, tm[3], tm[4], tm[5], 0))
+```
 
 The connect script is as as straightforwad as activating the network interface, configuring credentials, starting a connection and waiting for
 a connection to be made.
+
+```python
+def do_connect():
+
+    wlan = network.WLAN(network.STA_IF)         # Put modem on Station mode
+
+    if not wlan.isconnected():                  
+        print('connecting to network...')
+        wlan.active(True)                       # Activate network interface
+        # set power mode to get WiFi power-saving off (if needed)
+        wlan.config(pm = 0xa11140)
+        wlan.connect(WIFI_SSID, WIFI_PASSWORD)
+        print('Waiting for connection...', end='')
+        # Check if it is connected otherwise wait
+        while not wlan.isconnected() and wlan.status() >= 0:
+            print('.', end='')
+            sleep(1)
+    # Print the IP assigned by router
+    ip = wlan.ifconfig()[0]
+    print('\nConnected on {}'.format(ip))
+    return ip
+```
 
 ### main.py
 The bulk of the code is contained in the main file and if you want any specifics i recommend checking out the file itself in the github.
@@ -276,10 +315,68 @@ One thread does measuments and handles uploading of data to adafruit io. The oth
 The measure thread interacts with the ads1115 through an imported library found [here](https://github.com/robert-hh/ads1x15) and a ADC class both located in `src\libs` the library handles the reading of the power
 valuse. The reading is done by by calling the `read` function which takes 120 quick readings and avaraging the values. Afterwards the current is calulated from the voltage output using the known relationship between voltage and current from the current transformer. The power is then calculated using the current times the voltage of the mains. The power value is uploaded to adafruit using pycoms mqtt library contained in `src\libs\mqtt.py`.
 
+```python
+def measure_thread(YMDC,mqtt_client):
+    global LAST_ACTIVATION
+    YMDC.read()
+    power = YMDC.getPower(SYSTEM_VOLTAGE)
+    power_last = 0
+
+    while(1):
+        print("=== ADC reading ===")
+        YMDC.read()
+        power_last = power
+        power = YMDC.getPower(SYSTEM_VOLTAGE)
+
+        print("===== MQTT =====")
+        mqtt_client.check_msg()
+        send(power, mqtt_client,MQTT_POWER_MEASURMENTS)
+        print("===================")
+
+        found_platue = find_plateau(power,power_last)
+        print("=== Plateau ===")
+        print("scan: " + str(platue_scan))
+        if platue_scan: print("count = " +str(plateau_count))
+        print("found: " + str(found_platue))
+        print("===============")
+        if found_platue:
+            year,month,day,hour,minute,_,_,_ = localtime()
+            msg = f"The last power-on ocurred {hour:02}:{minute:02} {day}/{month}/{year}"
+            #with lock_last_activate:
+            LAST_ACTIVATION = msg
+            print(msg)
+            send(msg,mqtt_client,MQTT_LAST_TURN_ON)
+        sleep_ms(7000)
+```
+
 After measuriong power we want to see if the reading means that the coffee maker has been powered on. This is done by the `find_platue` function. The function checks if the power drain has changed outside of a
 threshold specified by `config.py` (defaul 1 Watt), If such a change is positive we begin a scan scanning. In subsequent calls of the find_platue were looking if the value is still outside the threashold and is positive in
-rellation to the first value. If there has been a number of reading specified by `config.py´ (default 5) that is still out of the threadshold this is read as a platue which means a turn on off the coffe maker and
+rellation to the first value. If there has been a number of reading specified by `config.py´ (default 5) that is still out of the threadshold this is read as a platue which means a turn on off the coffee maker and
 the function returns true. If this is the case the timestamp of the power on is both posted to adafruit and updated for the webserver to display.
+
+```python
+def find_plateau(current_value,last_value):
+    global plateau_count
+    global platue_scan
+    global plateau_min_point
+
+    if platue_scan:
+        if abs(current_value - plateau_min_point) >= PLATEAU_THRESHOLD:
+            plateau_count +=1
+        else:
+            plateau_count = 0
+            platue_scan = False
+
+        if plateau_count >= PLATEAU_COUNT_THRESHOLD:
+            platue_scan = False
+            return True
+        return False
+    else:
+        if (current_value - last_value >= PLATEAU_THRESHOLD):
+            plateau_min_point = last_value
+            platue_scan = True
+        return False
+```
 
 The other part of the code is the webserver readings, while the measurments are handled by a started thread the main thread handles the webserver. All the code pertaining the webserver is located in `src\libs\webserver.py`
 and makes up a very rudamentary webserver using sockets which servers the following html site:
