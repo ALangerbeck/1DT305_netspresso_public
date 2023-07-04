@@ -13,7 +13,8 @@ The previous solution was shut down quite quickly when a building manager walked
 to modify devices in this way in the future. So how do you do this without modifying the device and not having to worry about working with the power in the mains directly.
 
 In this project, a split core transformer is used to measure the current that is drawn by the coffee maker with minimal interference with the device itself.
-The project took about a week of evenings (~20 hours) to complete, and I hope my experience with the project will help anyone who wants to do anything like this. 
+The project took about a week of evenings (~20 hours) to complete, and I hope my experience with the project will help anyone who wants to do anything like this.
+Recreating the project with all components at hand could probably be done in 1-2 days of casual work.
 
 Give a short and brief overview of what your project is about. What needs to be included:
     Title
@@ -220,18 +221,45 @@ Since the device is meant to be used in close proximity to a coffee maker the ra
 One important thing to nore is that some current transformers lacks an internal burden resistor. If the output is specified in terms of current and an an external burden resitor between the left
 channel and ground should be added. If you got the current transformer specified above this is not a problem.
 
-I chose to solder the components toghter wich resulted in the following PCB
+I chose to solder the components toghter which resulted in the following PCB
 <p float="left">
-<img src="/doc/pcb.jpg" width="200"/>
-<img src="/doc/solder.jpg" width="200"/>
+<img src="/doc/front_pcb.jpg" width="400" />
+<img src="/doc/back_pcb.jpg" width="400"/>
 </p>
+
+After connecting all the components you need to hook up the current transformer around a wire. The transformer needs to be places around **one** of the phase wires in a normal mains cable. If it encloses
+all phase cables, the total current running throught the transformer loop will be zero and no result can be attained. I'm doing measurments on a swedish 2 phase cable without grounding.
+
+<p align="center">
+    <img src="/doc/hooked_up_transformer.jpg"  width="600">
+</p>
+
+In this prototyp i have opened up a cable. **I do not recommend doing this.** You should try to find a already split cable. If you decide to split your cable despite this be very carefull not to cut the 
+inner cable housing. 
+
+<p align="center">
+    <img src="/doc/complete_setup.jpg" alt>
+    <em>The final Setup</em>
+</p>
+
 
 How is all the electronics connected? Describe all the wiring, good if you can show a circuit diagram. Be specific on how to connect everything, and what to think of in terms of resistors, current and voltage. Is this only for a development setup or could it be used in production?
 
     Circuit diagram (can be hand drawn)
     *Electrical calculations
 
-Platform
+## Platform
+To present and store the result two main routes are implemented. The way to interact witht the device is through the [Adafruit IO](https://io.adafruit.com/) platform. The adafruit platfor provides
+an easy way for IoT devices to send and recive data via MQTT, RestAPIs etc. It also provides data visualisation and storage. I choose to use it because it seemed a pretty straight forward and easy to use
+platform that for my purposes was "good enoght". The free adafruit plan was more than enought for this project. Depending on how often you want to send data though, you might need to go for the paid version. 
+
+### Setup AdaFruit IO
+To use adafruit in this project a little setup is needed.
+
+1. Create a free adafruit account [here](https://accounts.adafruit.com/users/sign_up)
+2. sign into you account and go to IO -> Feeds, here you can create feeds for your device to interact with.
+3. Two Feeds are required for this project. One to signal when the coffe maker was last turned on and one for signaling measured power draw of the coffee maker.
+   Click on the new feed button to create the feeds and name them something rellevant. I named them "Power measurment" and "Last turned on"
 
 Describe your choice of platform. If you have tried different platforms it can be good to provide a comparison.
 
