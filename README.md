@@ -347,7 +347,8 @@ The project resulted in a project that does what it says. It gives you the abili
 by accessing a "website". In addition you can measure the power draw of your coffee maker. The project can of course be used on any device you can plug into the wall and there a power measurment
 scenario might be the more probable use case. 
 
-If i had more time i would probably extend the project with a lcd display that can show when the device was last turned on localy, and create a chassi, maybe by dsesigning and 3d printing one.
+If i had more time i would probably extend the project with a lcd display that can show when the device was last turned on localy, and create a chassi, maybe by designing and 3d printing one.
+Another thing i would want to do is make the HTTP "site" al little pretier and investigate common problems with using sockets the way they are used in the project
  
 <p align="center">
     <img src="/doc/complete_setup.jpg" alt>
